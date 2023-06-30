@@ -1,4 +1,4 @@
-public class ArrEx1 {
+public class ArrayEx1 {
     public static void main(String[] args) {
         int[] score = new int[5]; //길이가 5인 int 배열 , 0일수도 있다.
         int k =1;
