@@ -95,8 +95,8 @@ class Variables{
 ```
 - 클래스 영역 : iv, cv / 선언문만 가능
 - 메서드 영역 : lv
-- 클래스 변수 : 클래스가 메모리에 올라갈 때 자동 생성
-- 인스턴스 변수 : 인스턴스가 생성되었을 때 생성 ->객체는 iv를 묶어놓은것.
+- 클래스 변수 : 클래스가 메모리에 올라갈 때 자동 생성 -> 언제나 사용가능
+- 인스턴스 변수 : 인스턴스가 생성되었을 때 생성 ->객체생성시 사용가능 ,객체는 iv를 묶어놓은것.
 - 지역 변수 : 범위(scope)내에서 유효, 변수 선언문이 수행되었을 때 생성, 메서드 종료시 자동 제거
 
 ### 클래스 변수와 인스턴스 변수
@@ -149,4 +149,224 @@ int result = add(3,5); // int add(int x, int y)를 호출하고, 결과를 resul
 - 매개변수(parameter, 복사본)
 - 반환타입이 있는 경우, 사용하기 위해 작업결과를 저장할 변수가 필요.
 
+### return 문
+```
+void printGugudan(int dan){
+	if(!(2<= dan && dan <=9))
+		return; //void 일때 생략가능, 컴파일러가 자동추가.
+}
+```
+- 반환타입이 void 가 아닐 경우 return 문에 반환값을 작성.
+- 반환타입과 일치해야함. (자동형변환)
 
+### 호출 스택
+- 메서드 수행에 필요한 메모리가 제공되는 공간
+- 메서드가 호출되면 호출스택에 메모리 할당, 종료되면 해제
+- 아래 있는 메서드가 위에 있는 메서드를 호출. first in last out
+```
+class Ex6_5{
+	public static void main (String[] args){
+		System.out.println("Hello");
+	}
+}
+// main 실행-> println 호출 실행 -> main 실행 -> 종료
+```
+
+### 기본형 매개변수
+- Read only
+```
+public class Ex6_6 {  
+public static void main(String[] args) {  
+Data d = new Data(); //객체생성 - 참조형변수 d에 주소 저장  
+d.x=10;  
+System.out.println("main() : x = " + d.x);  
+  
+change(d.x);  
+System.out.println("After change(d.x)");  
+System.out.println("main() : x = " + d.x);  
+}  
+
+static void change(int x){ //기본형 매개변수  
+x=1000; //change 메서드 지역변수  
+System.out.println("change() : x = " + x); //1000  
+// 모두 수행한 후 호출스택에서 사라짐. main 메서드로 돌아감.  
+}  
+}
+```
+
+### 참조형 매개변수
+- Read & Write
+```
+static void change(Data2 d){ //참조형 매개변수 - 주소를 복사  
+	d.x=1000; // 객체주소.x 에 1000 저장  
+	System.out.println("change() : x = " + d.x); //1000  
+// 모두 수행한 후 호출스택에서 사라짐. main 메서드로 돌아감.  
+}
+```
+
+### 참조형 반환타입
+```
+Data3 d2 = copy(d); // d2 = tmp에 저장된 새 객체의 주소  
+
+static Data3 copy(Data3 d){  //참조형 반환타입 Data3
+Data3 tmp = new Data3(); //새로운 객체 생성 tmp에 주소 저장  
+tmp.x = d.x;  
+return tmp; // 복사한 객체의 주소를 반환  
+}  
+```
+
+### static 메서드와 인스턴스 메서드
+- 인스턴스 메서드
+  - 인스턴스 생성 후, '참조변수.메서드명()'으로 호출
+  - 인스턴스 멤버(iv, im)과 관련된 작업
+  - 메서드 내에서 iv 사용 가능
+- static 메서드
+  - 객체 생성 없이 '클래스명.메서드명()'으로 호출가능
+  - 인스턴스 멤버와 관련없는 작업
+  - 메서드 내에서 iv사용 불가 , cv는 사용가능
+```
+class MyMath2{
+	long a,b;
+	long add(){ //인스턴스 메서드
+		return a+b; // iv
+	} 
+	static long add(long a, long b){ // 클래스 메서드
+		return a+b; // lv
+	} 
+}
+
+class Test2{
+	public static void main(String args[]){
+		System.out.println(MyMath2.add(200L,100L)); // 객체생성 없이 클래스메서드 호출
+		MyMath2 mm = new MyMath2(); //인스턴스 생성
+		mm.a=200:;
+		mm.b=100L;
+		System.out.println(mm.add()); // 인스턴스메서드 호출
+	}
+}
+```
+- 속성(멤버 변수) 중에서 공통 속성에 static을 붙인다.
+- 인스턴스 멤버(iv, im)을 사용하지 않는 메서드에 static을 붙인다.
+- static 메서드는 항상 호출가능, 인스턴스 메서드는 객체 생성시 호출가능.
+
+### 메서드 오버로딩(overloading)
+- 한 클래스 안에 같은 이름의 메서드 여러 개 정의하는 것
+  1. 메서드 이름이 같아야 한다.
+  2. 매개변수의 개수 또는 타입이 달라야 한다.
+  3. 반환 타입은 영향없다.
+- 매개변수는 다르지만 같은 의미의 기능 수행
+
+### 생성자(constructor)
+- 인스턴스가 생성될 때마다 호출되는 '인스턴스 초기화 메서드'
+- 인스턴스 생성시 수행할 작업에 사용 (iv 초기화)
+```
+Time t = new Time(); // 기본생성자
+t.hour = 12;/ /iv 초기화
+t.minute = 34;
+t.second = 56;
+
+Time t = new Time(12,34,56); // 생성자 호출 : iv 초기화
+```
+- 이름이 클래스명과 같아야 한다.
+- 리턴값이 없다. void 안붙인다.
+- 모든 클래스는 반드시 하나이상의 생성자를 가져야 한다.
+```
+class Card{
+	Card() {iv초기화작업} // 매개변수 없는 생성자.
+
+	Card(Stirng kind, int number){ // 매개변수 있는 생성자.
+		kind= kind;
+		number = number;
+	}
+}
+// 생성자 오버로딩.
+	Card c = new Card() // 1. 참조변수선언 2. 객체생성 3. 객체초기화 4. 객체주소저장(연결)
+```
+### 기본생성자
+- 매개변수가 없는 생성자
+- 생성자가 클래스내에 하나도 없을 때만, 컴파일러가 자동 추가
+- 기본 생성자 없이 생성자를 작성하면 -> 기본생성자 호출시 오류
+
+### 생성자 this()
+- 생성자에서 다른 생성자 호출할 때 사용
+- 다른 생성자 호출 시 첫 줄에서만 사용가능
+- 코드의 중복을 피하기 위함
+```
+class Car2{  
+	String color;  
+	int door;  
+  
+	Car2(){  
+	this("white",4);  
+	}  
+	Car2(String color){  
+	this(color,4);  
+	}  
+	Car2(String color,int door){  
+	this.color = color;  
+	this.door = door;  
+	}  
+}
+```
+
+### 참조변수 this
+-  인스턴스 자신을 가리키는 참조변수
+-  인스턴스의 주소가 저장되어 있다.
+-  인스턴스 메서드(생성자 포함)에서 사용가능
+-  lv 와 iv 구별할 때 사용
+```
+Car2(String color,int door){  
+	// this.color는 iv, color는 lv
+	this.color = color;  
+	this.door = door;  
+	}  
+```
+- 같은 클래스 내에서는 생략가능
+- 모든 인스턴트 메서드에 숨겨진 채 존재한다.  같은 이름의 lv와 구별할 때 사용
+```
+Car(String c,int d){  
+	// color는 iv, c는 lv
+	color = c;  // this.color가 진짜 이름
+	door = dr;  
+	}  
+```
+- static 메서드에서는 사용불가 : 객체가 없으므로
+
+### 변수의 초기화
+- 지역변수는 수동으로 초기화 해야한다.
+- iv는 0으로 자동 초기화된다.
+```
+class InitTest {
+	int x; 
+	int y=x;
+
+	void method(){
+		int i; //지역변수
+		int j = i; // 에러. 지역변수를 초기화하지 않고 사용
+	}
+}
+```
+1. 명시적 초기화(=) : 간단한 초기화
+```
+class Car{
+	int door = 4; // 기본형 변수 초기화
+	Engine e = new Engine(); // 참조형 변수 초기화 : null or 객체주소
+}
+```
+2. 초기화 블럭 : 복잡한 초기화에 사용
+  - 인스턴스 초기화 블럭 : { }
+  - 클래스 초기화 블럭 : static { }
+```
+static { // 클래스 초기화 블럭 - 배열 arr을 난수로 채운다.
+	for(int i =0; i<arr.length;i++){
+		arr[i]=(int)(Math.random()*10)+1;
+		}
+	}
+```
+3.생성자 : 복잡한 초기화. iv초기화
+
+### 초기화 시점
+- 클래스 변수 : 클래스가 처음 로딩될 때 한번 ( 메모리에 올라갈때)
+  -기본값(자동) - 명시적초기화 - 클래스초기화블럭
+- 인스턴스 변수 : 인스턴스가 생성될 때마다
+  -기본값(자동)- 명시적초기화 - 인스턴스초기화블럭-생성자

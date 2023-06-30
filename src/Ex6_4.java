@@ -6,10 +6,15 @@ public class Ex6_4 {
         System.out.println("result1 = " + result1);
         System.out.println("result2 = " + result2);
         System.out.println(mm.multiply(5L,3L)); //가능
+        mm.printGugudan(3);
     }
 }
 
 class  MyMath{
+    void printGugudan(int dan){
+        if(!(2<=dan && dan<=9))
+            return;
+    }
     long add(long a, long b){
         long result = a+b;
         return result; //return a+b 로 가능
