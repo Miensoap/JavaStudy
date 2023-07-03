@@ -24,8 +24,8 @@ class B implements I{
         System.out.println("method B");
     }
 }
-class C {
-    public void method(){
-        System.out.println("method C");
-    }
-}
+//class C {
+//    public void method(){
+//        System.out.println("method C");
+//    }
+//}
