@@ -611,7 +611,7 @@ public class ModifierTest{
 - 클래스에는 public or (default) 2가지. 멤버에는 4가지.
 
 ### 캡슐화
--  직접 접근은 private로 차단, 메서드는 public으로 해서 메서드를통한 간접 접근 허용.
+-  직접 접근은 private로 차단, public 메서드를통한 간접 접근 허용.
 	- 상속이 예상되는 클래스라면 protected를 사용
 - 보통 멤버변수의 값을 읽는 메서드명을  get변수명, 변경하는 메서드는 set변수명 으로한다.
 	- getter, setter라 부른다.
@@ -721,18 +721,119 @@ p[2] = new Audio();
 ---
 
 ## 추상 클래스
+- 추상 메서드를 포함하는 클래스. 
+- 여러 클래스에 공통적으로 사용 될 수 있는, 기존 클래스의 공통 부분을 뽑아서 작성.
+- 코드의 관리가 용이. 변경에 유리
+```
+GregorianCalendar cal = new GregorianCalendar(); // 구체적
+Calendar cal  = Calendar.getInstance(); //추상적. 뭘 반활할지 불분명. Calendar + 자손 가능
+```
 
 ### 추상 메서드
+- 구현부가 없는 메서드. 미완성.
+- 상속을 통해 완성
+- 상속을 통해 완성된 후 호출되면, 참조변수 타입 상관없이 완성된 메서드가 호출.
+	- 추상클래스 타입 참조변수로 자손의 완성된 메서드 호출가능.
 
 ---
 
 ## 인터페이스
+- 추상 메서드의 집합
+- 구현된 것이 전혀 없는 설계도. (모든 멤버가 public + static final / abstract)
+```
+interface 'name' {
+	public static final 'type' 'name' = '0' ; // 상수만 가질수 있음
+	public abstract 'methodname'('parameters'); 
+	
+	// 변수는 항상 public staticc final 생갹가능.
+	// 메서드는 항상 public abstract  생갹가능. 
+}
+```
+- 인터페이스의 조상은 인터페이스만 가능. (Object가 최고 조상이 아니다.)
+- 다중 상속이 가능 (추상메서드는 충돌해도 문제 x )
+
+- 추상클래스로 클래스의 구분을 해결, 기능을 인터페이스로 구현
+
+### 인터페이스의 구현
+- implements 사용
+```
+class 클래스이름 implements 인터페이스이름 {
+	// 인터페이스에 정의된 추상메서드를 모두 구현해야함
+}
+```
 
 ### 인터페이스와 다형성
+- 인터페이스 타입 참조변수로 자손 타입 객체를 다룰 수 있다.
+``` 
+class Fighter extends Unit implements Fightable{
+	public void move(int x, int y){ }
+	public void attack(Fightable f){ }
+}
+	Unit u = new Fighter();
+	Fightable f = new Fighter(); //ok
+```
+- 인터페이스 타입 매개변수에는 인터페이스를 구현한 클래스의 객체만 들어올 수 있다.
+```
+interfave Fightable{
+	void move(int x, int y);
+	void attack(Fighterble f);
+}
+```
+- 인터페이스를 메서드의 리턴타입으로 지정할 수 있다.
+- 인터페이스를 구현한 인스턴스를 반환.
+```
+	Fighterble method(){  // method는 Fighterble 인터페이스를 구현한 클래스의 인스턴스 반환
+		Fighter f = new Fighter();
+		return f;
+		// return new Fighter(); 로 바꿀 수 있다.
+	}
+		Fighterble f = method(); //Fighter는 Fighterble 로 자동 형변환 가능.
+```
+### 인터페이스의 장점
+- 두 대상(객체)간의 연결을 돕는 중간역할
+- 선언(설계)와 구현을 분리시킬 수 있게 한다. 느슨한 결합. ->변경에 용이. 
+```
+public class Ex7_8 {  
+	public static void main(String[] args) {  
+		A a = new A();  
+		a.method(new B()); //A가 B를 사용(의존)  
+		// C를 사용하는것으로 변경하려면 A method의 선언부도 변경해야함.  
+		// B C 둘다 인터페이스 I를 구현하면 C로바꿔도 A에 변화 없다.  
+	}  
+}  
+  
+class A{  
+	// public void method(B b){  
+	public void method(I i){ //인터페이스 I를 구현한 인스턴스만 들어온다.  
+		b.method();  
+	}  
+}
+```
+- 개발 시간을 단축할 수 있다.
+- 변경에 유리한 설계가 가능하다.
+- 표준화가 가능하다.
+	- JDBC인터페이스를 이용해서 표준화. -> DB변경에 어플리케이션 변경 필요 X
+- 서로 관계없는 클래스들을 관계 맺어줄 수 있다.
+	- 같은 기능을 인터페이스로 구현
+```
+void repair(Tank t) {}
+void repair(Dropship d){} // 조상인 GroundUnit으로 묶으면 문제.
+
+// Repairable 인터페이스를 구현해서 관계.
+```
+
+### default 메서드와 static 메서드
+- JDK1.8 부터 인터페이스에 default 메서드, static 메서드 추가 가능
+
+- 인터페이스에 새로운 메서드(추상 메서드)를 추가하기 어려움
+	- 추상메서드를 새로 추가하면 인터페이스를 구현한 모든 클래스들에 변경이 필요.
+	- -> 구현부를 가진 default메서드를 추가할 수 있게한다. (인스턴스 메서드)
+	- -> 충돌문제 발생 : 오버라이딩으로 해결.
+
+- static 메서드는 인스턴스와 관계 없는 독립적인 메서드이기 때문에 추가 못할 이유가 없음.
 
 ---
 
-## default 메서드와 static 메서드
 
 
 
