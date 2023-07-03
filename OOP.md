@@ -753,7 +753,7 @@ interface 'name' {
 - 다중 상속이 가능 (추상메서드는 충돌해도 문제 x )
 
 - 추상클래스로 클래스의 구분을 해결, 기능을 인터페이스로 구현
-
+![[추상클래스인터페이스.png]]
 ### 인터페이스의 구현
 - implements 사용
 ```
@@ -834,7 +834,54 @@ void repair(Dropship d){} // 조상인 GroundUnit으로 묶으면 문제.
 
 ---
 
+## 내부 클래스(inner class)
+- 클래스 내에 선언된 클래스
+- 내부 클래스에서 외부 클래스의 멤버들에 쉽게 접근 가능
+- 캡슐화를 통해 코드 간결화
+```
+class Outer{
+	class InstanceInner{}
+	static class StacicInner{}
 
+	void myMethod(){
+		class LocalInner{}	
+	}
+}
+```
+
+- instance 클래스 : 외부 클래스의 인스턴스 멤버처럼 다루어짐. instance멤버와 관련된 작업에 사용
+- static 클래스 : 외부 클래스의 static 멤버처럼 다루어짐. static 메서드에서 사용될 목적으로 선언.
+- local 클래스 : 선언된 영역 내부에서만 사용가능.
+- anonymous 클래스 : 클래스의 선언과 객체의 생성을 동시에 하는 일회용 클래스
+
+### 내부 클래스의 제어자
+- 내부 클래스는 외부 클래스의 멤버변수와 같은 성질을 가진다. 
+- 클래스이기 때문에 abstract나 final 제어자 사용 가능.
+- private protected 등 접근 제어자 사용 가능
+
+- satic 클래스만 static 멤버를 가질 수 있다. (final+static은 상수이므로 모든 클래스에서 가능)
+
+- 인스턴스클래스는 같은 클래스의 인스턴스멤버와  static 멤버 모두 객체생성 없이 사용가능
+- 스태틱클래스는 인스턴스클래스의 멤버들을 객체생성 없이 사용불가. (멤버와 같음)
+
+- 외부 클래스와 내부 클래스에 선언된 변수의 이름이 같으면  this. / 외부클래스명.this.  사용
+
+### 익명 클래스(anonymous class)
+- 이름이 없기 때문에 생성자 x 조상클래스나 인터페이스의 이름 사용.
+	- 따라서 상속+구현이나 둘 이상 구현 불가.
+```
+new 조상/인터페이스이름(){
+	//멤버선언
+}
+
+Button b = new Button("Start");
+b.addActionLisetener(new ActionListener(){ 
+		public void actionPerformed(ActionEvent e){ //멤버(메서드)
+			System.out.plintln("ActionEvent occured!!!");	
+		}
+	} // 익명 클래스의 끝 
+);
+```
 
 
 
