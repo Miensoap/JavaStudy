@@ -1,4 +1,4 @@
-package Ex_OOP;
+package Ex_6_OOP;
 
 public class Ex6_4 {
     public static void main(String[] args) {

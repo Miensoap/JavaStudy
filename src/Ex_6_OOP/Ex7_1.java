@@ -1,4 +1,4 @@
-package Ex_OOP;
+package Ex_6_OOP;
 
 public class Ex7_1 { //inheritance
     public static void main(String[] args) {

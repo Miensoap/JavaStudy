@@ -1,4 +1,4 @@
-package Ex_OOP;
+package Ex_6_OOP;
 
 class Data3 {int x;}
 public class Ex6_8 {

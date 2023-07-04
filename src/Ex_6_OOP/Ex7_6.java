@@ -1,4 +1,4 @@
-package Ex_OOP;
+package Ex_6_OOP;
 
 import static java.lang.System.out;
 import static java.lang.Math.*;

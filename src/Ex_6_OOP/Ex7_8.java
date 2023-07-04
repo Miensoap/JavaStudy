@@ -1,4 +1,4 @@
-package Ex_OOP;
+package Ex_6_OOP;
 
 public class Ex7_8 {
     public static void main(String[] args) {
@@ -12,7 +12,7 @@ public class Ex7_8 {
 class A{
 //    public void method(B b){
     public void method(I i){ //인터페이스 I를 구현한 인스턴스만 들어온다.
-        b.method();
+        i.method();
     }
 }
 
