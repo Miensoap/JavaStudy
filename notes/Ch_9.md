@@ -3,6 +3,7 @@
 
 ### protected Object clone()
 - 객체 자신의 복사본 반환
+- 값만 복사하는 얕은 복사. 참조형  iv는 완전히 복제 x
 ### boolean equals(Object obj)
 - 객체 자신과 obj가 같은 객체인지 반환
 - 객체의 주소를 비교 -> 값을 비교하도록 오버라이딩
@@ -19,7 +20,7 @@
 
 ### String toString()
 - 객체 자신의 정보를 문자열로 반환
-- getClass().getName()+"@"+Integer.toHexString(hashCode()); 반환
+- getClass().getName()+"@"+Integer.toHexString(hashCode());  해시코드 반환
 - iv 값을 반환하도록 오버라이딩
 
 ### void notifiy()
@@ -30,6 +31,9 @@
 - notify 호출시까지 무한히 또는 지정된 시간동안 기다리게한다
 -  wait(long timeout)
 - wait(long timeout, int nanos)
+
+### 공변 반환타입
+- JDK1.5부터 오버라이딩 시 조상타입의 반환타입을 자손타입으로 바꾸는 것이 허용
 
 ---
 
@@ -89,9 +93,16 @@
 - String toLowerCase() : 소문자로
 - String toUpperCase() : 대문자로
 
+- String intern() : 문자열을 constant pool에 등록. 이미 같은 내용이 있으면 주소값 반환.
+
 - static String valueOf(boolean b) : 지정된 값을 문자열로 변환하여 반환.
   - (char), (int), (long), ...
   - 참조변수의 경우, toString()을 호출
+
+- String.format() : 형식화된 문자열 생성.  printf 와 동일.
+```
+	String.format("%d 더하기 %d는 %d입니다", 3, 5, 3+5);
+```
 
 ### join( )
 - 여러 문자열 사이에 구분자를 넣어 결합
@@ -166,6 +177,8 @@ System.out.println(str); // dog-cat-bear
 - double rint(double a) : 가장 가까운 정수값을 double 형으로 반환, 정가운데면 짝수
 - long round(double a) : 소수점 첫째자리에서 반올림한 정수값 반환
 
+-
+
 ---
 
 ## Wrapper 클래스
@@ -190,3 +203,52 @@ System.out.println(str); // dog-cat-bear
 ### 오토박싱 & 언박싱
 - 박싱=래핑 : int(기본형) - Integer(객체) 컴파일러가 자동으로 변환하는 것
   - 참조형과 기본형간의 연산 가능, 형변환 생략가능
+
+---
+
+## java.util.Objects 클래스
+- 모든 메서드가 static인 Object의 보조 클래스
+- 객체의 비교, null check 에 유용
+```
+	boolean isNull(Object obj)
+	boolean nonNull(Object obj)
+
+	static <T> T requireNonNull(T obj) //객체가 null이면 NullPointerException 발생
+	static int compare(Object a, Object b, Comparator c) // Comparator : 비교기준
+	
+	Objects.equals() // null검사를 내장
+	Objects.deepEquals() // 배열 비교 가능
+
+	Objects.toString() // null검사 내장
+	Objects.toString(Object o, String nullDefault)  /null 일때 사용할 값 지정
+	
+	
+```
+
+## java.util.Random 클래스
+```
+	int randNum = (int)(Math.random() * 6)+1*;
+	int randNum = new Random().nextInt(6)+1; // 동일
+
+	// nextDouble nextFloat...
+	
+```
+
+## 정규식 - java.util.regex 패키지
+- 미리 정의된 기호와 문자를 이용해 작성한 문자열
+```
+	Pattern p = Pattern.compile("c[a-z]*"); //c로 시작하는 소문자영단어
+
+	1. 정규식을 매개변수로 Pattern클래스의 Pattern compile(String regex) 메서드 호출
+	2. 정규식으로 비교할 대상을 매개변수로 Matcher matcher(CharSequence input) 메서드 호출
+	3. if(m.matches()) // Matcher인스턴스에 boolean matches() 호출해서 확인
+```
+
+## java.util.Scanner 클래스
+
+## java.util.StringTokenizer 클래스
+
+## java.math.BigInteger 클래스
+
+### BigDecimal 클래스
+
