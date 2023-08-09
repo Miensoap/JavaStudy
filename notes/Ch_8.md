@@ -56,7 +56,7 @@ try{
 ```
 ```
 	java.lang.ArithmeticException: / by zero
-	at Ex_8.Ex8_1.main(Ex8_1.java:6)
+	at Jungsuck.Ex_8.Ex8_1.main(Ex8_1.java:6)
 	예외메시지 : / by zero
 ```
 
