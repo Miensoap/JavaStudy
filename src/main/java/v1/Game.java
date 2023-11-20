@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Game {
     int round=1;
-    int win,lose=0;
+    int win,lose,tie=0;
     static User player = new User();
     static User dealer = new User();
     Random random = new Random();
@@ -15,7 +15,8 @@ public class Game {
         System.out.println("You   : ["+player.getCardNumber()+"]");
         System.out.println("Dealer: ["+dealer.getCardNumber()+"]");
         judge();
-        System.out.println("현재 전적: "+win+"승 "+lose+"패");
+        if(tie==0) System.out.println("현재 전적: "+win+"승 "+lose+"패");
+        else System.out.println("현재 전적: "+win+"승 "+tie+"무 "+lose+"패");
         reGame();
     }
 
@@ -34,6 +35,7 @@ public class Game {
             this.lose+=1;
         }
         else{
+            this.tie+=1;
             System.out.println("비겼습니다.");
         }
     }
@@ -43,7 +45,10 @@ public class Game {
         Scanner sc = new Scanner(System.in);
         String input = sc.next();
         try{
-            if (input .equals("Y")) run();
+            if (input .equals("Y")){
+                this.round+=1;
+                run();
+            }
             else if (input.equals("N"));
             else {
                 Exception e = new Exception("잘못입력");
