@@ -21,8 +21,8 @@ public class Game {
     }
 
     private void draw(){
-        player.setCardNumber(1+random.nextInt(10));
-        dealer.setCardNumber(1+random.nextInt(10));
+        player.setCardNumber(1+random.nextInt(11));
+        dealer.setCardNumber(1+random.nextInt(11));
     }
 
     private void judge(){
