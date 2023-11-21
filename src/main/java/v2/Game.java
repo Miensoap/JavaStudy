@@ -69,22 +69,40 @@ public class Game {
     }
 
     private boolean askToPlayer() {
+        Exception e = new Exception("잘못입력");
+        CheatException ec = new CheatException();
+
         System.out.print("카드를 더 받겠습니까? (Y / N) ");
         Scanner sc = new Scanner(System.in);
         String input = sc.next();
         try {
             if (input.equals("Y")) {
                 return true;
-            } else if (input.equals("N")) return false;
+            }
+            else if(input.equals("codesquad")) {
+                cheat();
+                throw ec;
+            }
+            else if (input.equals("N")) return false;
             else {
-                Exception e = new Exception("잘못입력");
                 throw e;
             }
         } catch (Exception e1) {
             System.out.println("잘못 입력하셨습니다.");
             askToPlayer();
+        }catch (Exception ec){
+            askToPlayer();
         }
         return false;
+    }
+
+    private void cheat() {
+        System.out.print("덱의 카드 : ");
+        List<Integer> cards = deck.showCards(6);
+        while (!cards.isEmpty()){
+            System.out.print("["+cards.remove(0)+"]");
+        }
+        System.out.println();
     }
 
     private boolean askToBot(User bot){

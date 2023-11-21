@@ -22,4 +22,8 @@ class Deck {
     public int getCard() {
         return deck.remove(0);
     }
+
+    public List<Integer> showCards(int i) {
+        return deck.subList(0,5);
+    }
 }
