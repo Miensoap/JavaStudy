@@ -6,6 +6,31 @@ import java.util.List;
 class User {
     List<Integer> cardNumbers = new ArrayList<>();
     int money = 1000;
+    int win, lose, tie = 0;
+
+    public int getWin() {
+        return win;
+    }
+
+    public void setWin(int win) {
+        this.win = win;
+    }
+
+    public int getLose() {
+        return lose;
+    }
+
+    public void setLose(int lose) {
+        this.lose = lose;
+    }
+
+    public int getTie() {
+        return tie;
+    }
+
+    public void setTie(int tie) {
+        this.tie = tie;
+    }
 
     public int getMoney() {
         return money;

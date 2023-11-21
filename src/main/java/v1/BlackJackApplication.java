@@ -8,4 +8,6 @@ public class BlackJackApplication {
         game.run();
         System.out.println("게임을 종료합니다.\n" + "플레이해주셔서 감사합니다.");
     }
+
+
 }
