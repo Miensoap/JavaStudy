@@ -26,15 +26,14 @@ public class GameManager {
     }
 
     private void gameEnd(String result) {
-        int win = player.getWin();
-        int lose = player.getLose();
-        int tie = player.getTie();
-
 //        history(win, lose, tie);
         betting.settle(result);
     }
 
-    private void history(int win, int lose, int tie) {
+    private void history() {
+        int win = player.getWin();
+        int lose = player.getLose();
+        int tie = player.getTie();
         if (tie == 0) System.out.println("현재 전적: " + win + "승 " + lose + "패");
         else System.out.println("현재 전적: " + win + "승 " + tie + "무 " + lose + "패");
     }
