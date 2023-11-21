@@ -45,10 +45,10 @@ public class GameManager {
         Scanner sc = new Scanner(System.in);
         String input = sc.next();
         try {
-            if (input.equals("Y")) {
+            if (input.equals("Y") || input.equals("y")) {
                 managing();
             }
-            else if (input.equals("N"));
+            else if (input.equals("N") || input.equals("n"));
             else{
                 throw e;
             }

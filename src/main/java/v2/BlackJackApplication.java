@@ -13,6 +13,7 @@ public class BlackJackApplication {
 
     private static void welcome() {
         System.out.println("간단 카드 게임을 시작합니다.");
+        System.out.println("현재 재산 : "+player.getMoney());
     }
 
     private static void exit() {
