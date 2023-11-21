@@ -1,4 +1,4 @@
 package v2;
 
-public class CheatException {
+public class CheatException extends Throwable{
 }

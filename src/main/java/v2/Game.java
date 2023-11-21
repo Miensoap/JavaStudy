@@ -90,7 +90,7 @@ public class Game {
         } catch (Exception e1) {
             System.out.println("잘못 입력하셨습니다.");
             askToPlayer();
-        }catch (Exception ec){
+        }catch (CheatException e2){
             askToPlayer();
         }
         return false;
