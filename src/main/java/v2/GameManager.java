@@ -40,6 +40,7 @@ public class GameManager {
 
 
     private void reGame() {
+        if(player.getMoney()==0) return;
         Exception e = new Exception("잘못입력");
         System.out.print("한 게임 더 하시겠습니까? (Y / N) ");
         Scanner sc = new Scanner(System.in);
