@@ -2,18 +2,22 @@ package v2;
 
 public class BlackJackApplication {
     static User player;
+    static GameManager gameManager;
     public static void main(String[] args) {
         player = new User();
-
-        System.out.println("간단 카드 게임을 시작합니다.");
-        Game game = new Game(player);
-        game.run();
+        welcome();
+        gameManager = new GameManager(new Game(player));
+        gameManager.managing();
         exit();
-        System.out.println("플레이 해 주셔서 감사합니다.");
     }
 
+    private static void welcome() {
+        System.out.println("간단 카드 게임을 시작합니다.");
+    }
 
     private static void exit() {
+        System.out.println("플레이 해 주셔서 감사합니다.");
         System.out.println(player.win + "승 " + player.tie + "무 " + player.lose + "패로 " + player.getMoney() + "원의 자산이 남았습니다.");
     }
+
 }
