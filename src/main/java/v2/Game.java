@@ -19,6 +19,7 @@ public class Game {
 
     public void run() {
         gameStart();
+        deck.setDeck();
         if(!setCardPlayer(player)) return;
         if(!setCardDealer(dealer)) return;
         reGame();
@@ -44,14 +45,7 @@ public class Game {
 
 
     private void draw(User user) {
-        while (true) {
-            int cardNumber = 1 + random.nextInt(11);
-            if (deck.getNumOfCards(cardNumber) > 0) {
-                deck.setNumOfCards(cardNumber, deck.getNumOfCards(cardNumber) - 1);
-                user.setCardNumber(cardNumber);
-                break;
-            }
-        }
+        user.setCardNumber(deck.getCard());
     }
 
     // setCard 하나로 합친다
