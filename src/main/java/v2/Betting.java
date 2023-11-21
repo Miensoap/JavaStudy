@@ -35,12 +35,15 @@ public class Betting {
         if (result.equals("win")){
             player.setMoney(nowMoney+money);
             System.out.print("당신의 승리입니다.");
+            player.Win();
         } else if (result.equals("lose")) {
             player.setMoney(nowMoney-money);
             System.out.print("당신의 패배입니다.");
+            player.Lose();
         }
         else{
             System.out.print("무승부입니다.");
+            player.Tie();
         }
         System.out.println("현재 재산: " +player.getMoney());
     }

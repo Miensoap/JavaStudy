@@ -6,7 +6,7 @@ public class BlackJackApplication {
     public static void main(String[] args) {
         player = new User();
         welcome();
-        gameManager = new GameManager(new Game(player));
+        gameManager = new GameManager(player);
         gameManager.managing();
         exit();
     }
@@ -16,7 +16,7 @@ public class BlackJackApplication {
     }
 
     private static void exit() {
-        System.out.println("플레이 해 주셔서 감사합니다.");
+        System.out.println("\n플레이 해 주셔서 감사합니다.");
         System.out.println(player.win + "승 " + player.tie + "무 " + player.lose + "패로 " + player.getMoney() + "원의 자산이 남았습니다.");
     }
 

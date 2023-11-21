@@ -12,24 +12,24 @@ class User {
         return win;
     }
 
-    public void setWin(int win) {
-        this.win = win;
+    public void Win() {
+        this.win +=1;
     }
 
     public int getLose() {
         return lose;
     }
 
-    public void setLose(int lose) {
-        this.lose = lose;
+    public void Lose() {
+        this.lose +=1;
     }
 
     public int getTie() {
         return tie;
     }
 
-    public void setTie(int tie) {
-        this.tie = tie;
+    public void Tie() {
+        this.tie +=1;
     }
 
     public int getMoney() {
@@ -51,4 +51,6 @@ class User {
     public int getCardNumber() {
         return cardNumbers.stream().mapToInt(Integer::intValue).sum();
     }
+
+    public void initCardNumbers(){this.cardNumbers = new ArrayList<>();}
 }

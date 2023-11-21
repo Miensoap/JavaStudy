@@ -6,7 +6,6 @@ import java.util.Scanner;
 
 
 public class Game {
-    int round = 1;
     User player;
     User dealer = new User();
     Deck deck = new Deck();
@@ -17,6 +16,8 @@ public class Game {
 
     public String gameRun(){
         deck.setDeck();
+        player.initCardNumbers();
+        dealer.initCardNumbers();
         if(!setCardPlayer(player)) return "lose";
         if(!setCardDealer(dealer)) return "win";
         return judge();
@@ -42,7 +43,10 @@ public class Game {
         while (true) {
             if (askToBot(user)) {
                 draw(user);
-                if(judgeBust(user)) return false;
+                if(judgeBust(user)) {
+                    announce(dealer, "딜러");
+                    return false;
+                }
             } else break;
         }
         return true;
@@ -61,6 +65,7 @@ public class Game {
             System.out.print("[" + cardNumber + "]");
         }
         System.out.println();
+        System.out.println("총합 : "+user.getCardNumber());
     }
 
     private boolean askToPlayer() {
@@ -91,9 +96,8 @@ public class Game {
     }
 
     private void announceResult() {
-        // 여러명되면 User list  반복
-        announce(player, "플레이어");
         announce(dealer, "딜러");
+        System.out.println("딜러의 카드 합계는 "+ dealer.getCardNumber()+"입니다.");
     }
 
     private String judge() {

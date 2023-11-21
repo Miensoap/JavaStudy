@@ -3,15 +3,15 @@ package v2;
 import java.util.Scanner;
 
 public class GameManager {
-    Game game;
+    int round = 0;
     User player;
     Betting betting;
-    public GameManager(Game game){
-        this.game = game;
-        this.player = game.player;
+    public GameManager(User player){
+        this.player = player;
     }
 
     public void managing() {
+        Game game = new Game(player);
         gameStart();
         String result = game.gameRun();
         gameEnd(result);
@@ -21,7 +21,8 @@ public class GameManager {
     private void gameStart() {
         betting = new Betting(player);
         betting.bet();
-        System.out.println("\nGame " + game.round);
+        round+=1;
+        System.out.println("\nGame " + round);
     }
 
     private void gameEnd(String result) {
@@ -29,10 +30,15 @@ public class GameManager {
         int lose = player.getLose();
         int tie = player.getTie();
 
-        if (tie == 0) System.out.println("현재 전적: " + win + "승 " + lose + "패");
-        else System.out.println("현재 전적: " + win + "승 " + tie + "무 " + lose + "패");
+//        history(win, lose, tie);
         betting.settle(result);
     }
+
+    private void history(int win, int lose, int tie) {
+        if (tie == 0) System.out.println("현재 전적: " + win + "승 " + lose + "패");
+        else System.out.println("현재 전적: " + win + "승 " + tie + "무 " + lose + "패");
+    }
+
 
     private void reGame() {
         Exception e = new Exception("잘못입력");
@@ -41,7 +47,6 @@ public class GameManager {
         String input = sc.next();
         try {
             if (input.equals("Y")) {
-                game.round += 1;
                 managing();
             }
             else if (input.equals("N"));
