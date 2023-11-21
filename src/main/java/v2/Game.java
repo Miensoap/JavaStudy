@@ -1,5 +1,6 @@
 package v2;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -53,7 +54,7 @@ public class Game {
 
     private void announce(User user, String userName) {
         // userName user 멤버로 편입
-        List<Integer> Cards = user.getCardNumbers();
+        List<Integer> Cards = new ArrayList<>(user.getCardNumbers());
         System.out.print(userName + ": ");
         while (!Cards.isEmpty()) {
             int cardNumber = Cards.remove(0);
@@ -92,7 +93,7 @@ public class Game {
     private void announceResult() {
         // 여러명되면 User list  반복
         announce(player, "플레이어");
-        announce(player, "딜러");
+        announce(dealer, "딜러");
     }
 
     private String judge() {
