@@ -5,17 +5,21 @@ import java.util.Scanner;
 public class GameManager {
     int round = 0;
     User player;
+    Game game;
     Betting betting;
     public GameManager(User player){
         this.player = player;
     }
 
     public void managing() {
-        Game game = new Game(player);
         gameStart();
         String result = game.gameRun();
         gameEnd(result);
         reGame();
+    }
+
+    public void makeGame(){
+        game = new Game(player);
     }
 
     private void gameStart() {
@@ -58,6 +62,4 @@ public class GameManager {
             reGame();
         }
     }
-
-
 }

@@ -121,6 +121,7 @@ public class Game {
     private String judge() {
         announceResult();
         if (player.getCardNumber() > dealer.getCardNumber()) {
+            if(player.getCardNumber()==21) return "blackjack";
             return "win";
         } else if (player.getCardNumber() < dealer.getCardNumber()) {
             return "lose";

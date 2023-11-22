@@ -9,18 +9,14 @@ public class Betting {
         this.player = player;
     }
     public void bet(){
+        Exception e = new Exception();
         System.out.print("얼마를 거시겠습니까? ");
         Scanner sc = new Scanner(System.in);
 
         try{
             int input = sc.nextInt();
-            if (input > player.money){
-                Exception noMoneyException = new Exception();
-                throw noMoneyException;
-            }
-            else if(input%100 != 0){
-                Exception illegalMoneyException = new Exception();
-                throw illegalMoneyException;
+            if (input > player.money || input%100 !=0){
+                throw e;
             }
             money = input;
         }catch (Exception e1) {
@@ -40,6 +36,9 @@ public class Betting {
             player.setMoney(nowMoney-money);
             System.out.print("당신의 패배입니다.");
             player.Lose();
+        } else if(result.equals("blackjack")){
+            player.setMoney(nowMoney+money*2);
+            player.Win();
         }
         else{
             System.out.print("무승부입니다.");

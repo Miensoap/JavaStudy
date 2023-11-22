@@ -7,6 +7,7 @@ public class BlackJackApplication {
         player = new User();
         welcome();
         gameManager = new GameManager(player);
+        gameManager.makeGame();
         gameManager.managing();
         exit();
     }
