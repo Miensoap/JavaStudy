@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class BlackJackGame implements Game {
     User player;
-    User dealer = new User();
+    User dealer = new User("딜러");
     Deck deck = new Deck();
 
     public BlackJackGame(User player) {
@@ -27,13 +27,17 @@ public class BlackJackGame implements Game {
     }
 
     // setCard 하나로 합친다
+
+    private void draw(User user) {
+        user.addCard(deck.getCard());
+    }
     private boolean setCardPlayer(User user) {
         draw(user);
-        showCards(user, "플레이어");
+        showCards(user);
         while (true) {
             if (askToPlayer()) {
                 draw(user);
-                showCards(user, "플레이어");
+                showCards(user);
                 if(judgeBust(user)) return false;
             } else break;
         }
@@ -46,7 +50,7 @@ public class BlackJackGame implements Game {
             if (askToBot(user)) {
                 draw(user);
                 if(judgeBust(user)) {
-                    showCards(dealer, "딜러");
+                    showCards(dealer);
                     return false;
                 }
             } else break;
@@ -54,13 +58,10 @@ public class BlackJackGame implements Game {
         return true;
     }
 
-    private void draw(User user) {
-        user.addCard(deck.getCard());
-    }
-
-    private void showCards(User user, String userName) {
+    private void showCards(User user) {
         // userName user 멤버로 편입
         List<Integer> Cards = new ArrayList<>(user.getCards());
+        String userName = user.getUserName();
         System.out.print(userName + ": ");
         while (!Cards.isEmpty()) {
             int cardNumber = Cards.remove(0);
@@ -115,13 +116,13 @@ public class BlackJackGame implements Game {
         return user.getSumOfCardNumber()>21;
     }
 
-    private void announceResult() {
-        showCards(dealer, "딜러");
-        System.out.println("딜러의 카드 합계는 "+ dealer.getSumOfCardNumber()+"입니다.");
+    private void announceResult(User user) {
+        showCards(user);
+        System.out.println(user.getUserName()+"의 카드 합계는 "+ dealer.getSumOfCardNumber()+"입니다.");
     }
 
     private Result judge() {
-        announceResult();
+        announceResult(dealer);
         if (player.getSumOfCardNumber() > dealer.getSumOfCardNumber()) {
             if(player.getSumOfCardNumber()==21) return Result.blackjack;
             return Result.win;

@@ -30,14 +30,13 @@ public class Betting {
 
     public void settle(Result result){
         int nowMoney = player.getMoney();
-        if (result.equals(Result.win)){
+        if (result.equals(Result.win) || result.equals(Result.blackjack)){
             System.out.print("당신의 승리입니다.");
-            player.setMoney(nowMoney+money);
             player.addResultCount(Result.win);
-        } else if(result.equals(Result.blackjack)){
-            System.out.print("당신의 승리입니다.");
-            player.setMoney(nowMoney+money*2);
-            player.addResultCount(Result.win);
+            if(result.equals(Result.blackjack)){
+                player.setMoney(nowMoney+money);
+            }
+            else player.setMoney(nowMoney+money*2);
         } else if (result.equals(Result.lose)) {
             player.setMoney(nowMoney-money);
             System.out.print("당신의 패배입니다.");

@@ -8,16 +8,19 @@ import java.util.Map;
 
 class User {
     int money;
+    String userName;
     List<Integer> cards = new ArrayList<>();
     Map<Result,Integer> history = new HashMap<>();
 
-    public User(){
+    public User(String name){
+        this.userName = name;
         money = 1000;
         history.put(Result.win, 0);
         history.put(Result.lose, 0);
         history.put(Result.tie, 0);
     }
 
+    public String getUserName(){return userName;}
 
     public int getMoney() { return money; }
     public void setMoney(int money) {

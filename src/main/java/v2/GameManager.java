@@ -1,13 +1,14 @@
 package v2;
 
 import v2.enums.Result;
+import v2.interfaces.Game;
 
 import java.util.Scanner;
 
 public class GameManager {
     int round = 0;
     User player;
-    BlackJackGame blackJackGame;
+    Game blackJackGame;
     Betting betting;
     public GameManager(User player){
         this.player = player;
