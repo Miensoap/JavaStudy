@@ -1,5 +1,7 @@
 package v2;
 
+import v2.enums.Result;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -14,14 +16,13 @@ public class Game {
         this.player = player;
     }
 
-    public String gameRun(){
+    public Result gameRun(){
         deck.setDeck();
-        player.initCardNumbers();
-        dealer.initCardNumbers();
-        if(!setCardPlayer(player)) return "lose";
-        if(!setCardDealer(dealer)) return "win";
+        player.initCards();
+        dealer.initCards();
+        if(!setCardPlayer(player)) return Result.lose;
+        if(!setCardDealer(dealer)) return Result.win;
         return judge();
-
     }
 
     // setCard 하나로 합친다
@@ -53,19 +54,19 @@ public class Game {
     }
 
     private void draw(User user) {
-        user.setCardNumber(deck.getCard());
+        user.addCard(deck.getCard());
     }
 
     private void announce(User user, String userName) {
         // userName user 멤버로 편입
-        List<Integer> Cards = new ArrayList<>(user.getCardNumbers());
+        List<Integer> Cards = new ArrayList<>(user.getCards());
         System.out.print(userName + ": ");
         while (!Cards.isEmpty()) {
             int cardNumber = Cards.remove(0);
             System.out.print("[" + cardNumber + "]");
         }
         System.out.println();
-        System.out.println("총합 : "+user.getCardNumber());
+        System.out.println("총합 : "+user.getSumOfCardNumber());
     }
 
     private boolean askToPlayer() {
@@ -106,27 +107,27 @@ public class Game {
     }
 
     private boolean askToBot(User bot){
-        return bot.getCardNumber() < 17;
+        return bot.getSumOfCardNumber() < 17;
     }
 
     private Boolean judgeBust(User user){
-        return user.getCardNumber()>21;
+        return user.getSumOfCardNumber()>21;
     }
 
     private void announceResult() {
         announce(dealer, "딜러");
-        System.out.println("딜러의 카드 합계는 "+ dealer.getCardNumber()+"입니다.");
+        System.out.println("딜러의 카드 합계는 "+ dealer.getSumOfCardNumber()+"입니다.");
     }
 
-    private String judge() {
+    private Result judge() {
         announceResult();
-        if (player.getCardNumber() > dealer.getCardNumber()) {
-            if(player.getCardNumber()==21) return "blackjack";
-            return "win";
-        } else if (player.getCardNumber() < dealer.getCardNumber()) {
-            return "lose";
+        if (player.getSumOfCardNumber() > dealer.getSumOfCardNumber()) {
+            if(player.getSumOfCardNumber()==21) return Result.blackjack;
+            return Result.win;
+        } else if (player.getSumOfCardNumber() < dealer.getSumOfCardNumber()) {
+            return Result.lose;
         } else {
-            return "tie";
+            return Result.tie;
         }
     }
 }

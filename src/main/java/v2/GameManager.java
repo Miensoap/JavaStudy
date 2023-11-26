@@ -1,5 +1,7 @@
 package v2;
 
+import v2.enums.Result;
+
 import java.util.Scanner;
 
 public class GameManager {
@@ -13,7 +15,7 @@ public class GameManager {
 
     public void managing() {
         gameStart();
-        String result = game.gameRun();
+        Result result = game.gameRun();
         gameEnd(result);
         reGame();
     }
@@ -29,7 +31,7 @@ public class GameManager {
         System.out.println("\nGame " + round);
     }
 
-    private void gameEnd(String result) {
+    private void gameEnd(Result result) {
 //        history(win, lose, tie);
         betting.settle(result);
     }
