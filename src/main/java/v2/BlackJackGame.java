@@ -1,18 +1,19 @@
 package v2;
 
 import v2.enums.Result;
+import v2.interfaces.Game;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 
-public class Game {
+public class BlackJackGame implements Game {
     User player;
     User dealer = new User();
     Deck deck = new Deck();
 
-    public Game(User player) {
+    public BlackJackGame(User player) {
         this.player = player;
     }
 
@@ -28,11 +29,11 @@ public class Game {
     // setCard 하나로 합친다
     private boolean setCardPlayer(User user) {
         draw(user);
-        announce(user, "플레이어");
+        showCards(user, "플레이어");
         while (true) {
             if (askToPlayer()) {
                 draw(user);
-                announce(user, "플레이어");
+                showCards(user, "플레이어");
                 if(judgeBust(user)) return false;
             } else break;
         }
@@ -45,7 +46,7 @@ public class Game {
             if (askToBot(user)) {
                 draw(user);
                 if(judgeBust(user)) {
-                    announce(dealer, "딜러");
+                    showCards(dealer, "딜러");
                     return false;
                 }
             } else break;
@@ -57,7 +58,7 @@ public class Game {
         user.addCard(deck.getCard());
     }
 
-    private void announce(User user, String userName) {
+    private void showCards(User user, String userName) {
         // userName user 멤버로 편입
         List<Integer> Cards = new ArrayList<>(user.getCards());
         System.out.print(userName + ": ");
@@ -115,7 +116,7 @@ public class Game {
     }
 
     private void announceResult() {
-        announce(dealer, "딜러");
+        showCards(dealer, "딜러");
         System.out.println("딜러의 카드 합계는 "+ dealer.getSumOfCardNumber()+"입니다.");
     }
 
