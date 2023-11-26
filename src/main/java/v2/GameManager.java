@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class GameManager {
     int round = 0;
     User player;
-    Game blackJackGame;
+    Game game;
     Betting betting;
     public GameManager(User player){
         this.player = player;
@@ -16,13 +16,13 @@ public class GameManager {
 
     public void managing() {
         gameStart();
-        Result result = blackJackGame.gameRun();
+        Result result = game.gameRun();
         gameEnd(result);
         reGame();
     }
 
     public void makeGame(){
-        blackJackGame = new BlackJackGame(player);
+        game = new BlackJackGame(player);
     }
 
     private void gameStart() {
