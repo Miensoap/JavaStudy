@@ -55,6 +55,5 @@ public class AccommodationEntity extends BaseEntity {
 
     public void confirmHost(UserEntity user){
         this.host = user;
-        user.getAccommodations().add(this);
     }
 }

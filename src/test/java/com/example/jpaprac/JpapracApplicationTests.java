@@ -38,11 +38,9 @@ class JpapracApplicationTests {
                 .name("test")
                 .build();
 
-        UserEntity proxyUser = userRepository.getReferenceById(1L);
-        accommodation.confirmHost(proxyUser);
+        accommodation.confirmHost(user);
         AccommodationEntity saved = accommodationRepository.save(accommodation);
         System.out.println(saved.getHost().getName());
-        System.out.println(proxyUser.getAccommodations());
     }
 
     @Test

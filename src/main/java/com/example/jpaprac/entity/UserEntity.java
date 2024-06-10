@@ -38,12 +38,6 @@ public class UserEntity {
     @NotNull
     private String registrationId;
 
-    @OneToMany(mappedBy = "host")
-    private List<AccommodationEntity> accommodations = new ArrayList<>();
-
-    @OneToMany(mappedBy = "booker")
-    private List<BookingEntity> bookings = new ArrayList<>();
-
     public UserEntity(String name, Role role, String registrationId) {
         this.name = name;
         this.role = role;

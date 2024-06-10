@@ -32,7 +32,6 @@ public class BookingEntity {
 
     public static BookingEntity book(UserEntity booker, List<ProductEntity> products) {
         BookingEntity booking = new BookingEntity(booker, products);
-        booker.getBookings().add(booking);
         products.forEach(product->product.book(booking));
 
         return booking;
