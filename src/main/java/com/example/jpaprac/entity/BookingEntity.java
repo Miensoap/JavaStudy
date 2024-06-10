@@ -4,8 +4,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +31,8 @@ public class BookingEntity {
     @OneToMany(mappedBy = "booking")
     private List<ProductEntity> bookingProducts = new ArrayList<>();
 
+    @OneToOne @JoinColumn(name = "PAYMENT_ID")
+    private PaymentEntity payment;
 
     public static BookingEntity book(UserEntity booker, List<ProductEntity> products) {
         BookingEntity booking = new BookingEntity(booker, products);
@@ -40,5 +44,9 @@ public class BookingEntity {
     public BookingEntity(UserEntity booker, List<ProductEntity> bookingProducts) {
         this.booker = booker;
         this.bookingProducts = bookingProducts;
+    }
+
+    public void pay(PaymentEntity payment){
+        this.payment = payment;
     }
 }

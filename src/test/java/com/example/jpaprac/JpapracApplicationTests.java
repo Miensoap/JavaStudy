@@ -2,6 +2,7 @@ package com.example.jpaprac;
 
 import com.example.jpaprac.entity.AccommodationEntity;
 import com.example.jpaprac.entity.BookingEntity;
+import com.example.jpaprac.entity.PaymentEntity;
 import com.example.jpaprac.entity.ProductEntity;
 import com.example.jpaprac.entity.UserEntity;
 import com.example.jpaprac.entity.user.property.Role;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @SpringBootTest
@@ -88,5 +90,28 @@ class JpapracApplicationTests {
         // 동일성 보장
         System.out.println(referenceById.equals(newProduct));
         System.out.println(newProduct.getBooking().getBooker().getName());
+    }
+
+    @Test
+    @Transactional
+    void BookingAndPayment(){
+        UserEntity user = userRepository.save(new UserEntity("name", Role.HOST, "id"));
+        AccommodationEntity accommodation = AccommodationEntity.builder()
+                .name("test")
+                .products(new ArrayList<>())
+                .build();
+        accommodation.confirmHost(user);
+
+        ProductEntity newProduct = ProductEntity.from(accommodation, LocalDate.parse("2024-07-07"), 1000);
+        Long productId = productRepository.save(newProduct).getId();
+
+        List<ProductEntity> products = new ArrayList<>();
+        products.add(productRepository.getReferenceById(productId)); // -> Booking.addProduct()
+        BookingEntity booking = bookingRepository.save(BookingEntity.book(user, products));
+
+        booking.pay(new PaymentEntity(100000));
+        BookingEntity paid = bookingRepository.save(booking);
+
+        System.out.println(paid.getPayment().getTotalPrice());
     }
 }
