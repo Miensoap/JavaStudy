@@ -1,10 +1,12 @@
 package com.example.jpaprac;
 
 import com.example.jpaprac.entity.AccommodationEntity;
+import com.example.jpaprac.entity.BookingEntity;
 import com.example.jpaprac.entity.ProductEntity;
 import com.example.jpaprac.entity.UserEntity;
 import com.example.jpaprac.entity.user.property.Role;
 import com.example.jpaprac.repository.AccommodationRepository;
+import com.example.jpaprac.repository.BookingRepository;
 import com.example.jpaprac.repository.ProductRepository;
 import com.example.jpaprac.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest
 class JpapracApplicationTests {
@@ -24,6 +27,8 @@ class JpapracApplicationTests {
     UserRepository userRepository;
     @Autowired
     ProductRepository productRepository;
+    @Autowired
+    BookingRepository bookingRepository;
 
     @Test
     @Transactional
@@ -65,6 +70,25 @@ class JpapracApplicationTests {
     @Test
     @Transactional
     void BookingAndProduct() {
+        UserEntity user = userRepository.save(new UserEntity("name", Role.HOST, "id"));
+        AccommodationEntity accommodation = AccommodationEntity.builder()
+                .name("test")
+                .products(new ArrayList<>())
+                .build();
+        accommodation.confirmHost(user);
 
+        ProductEntity newProduct = ProductEntity.from(accommodation, LocalDate.parse("2024-07-07"), 1000);
+        Long productId = productRepository.save(newProduct).getId();
+
+
+        ProductEntity referenceById = productRepository.getReferenceById(productId);
+        BookingEntity saved = bookingRepository.save(BookingEntity.book(user, List.of(referenceById)));
+
+        System.out.println(saved.getBooker().getName());
+        System.out.println(saved.getBookingProducts());
+
+        // 동일성 보장
+        System.out.println(referenceById.equals(newProduct));
+        System.out.println(newProduct.getBooking().getBooker().getName());
     }
 }
