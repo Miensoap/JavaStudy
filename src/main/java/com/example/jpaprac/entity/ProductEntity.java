@@ -19,7 +19,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity
 @Table(name = "PRODUCT")
-public class ProductEntity {
+public class ProductEntity extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

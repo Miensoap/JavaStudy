@@ -19,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "BOOKING")
 @Entity
-public class BookingEntity {
+public class BookingEntity extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,5 +48,9 @@ public class BookingEntity {
 
     public void pay(PaymentEntity payment){
         this.payment = payment;
+    }
+
+    public UserEntity getHost(){
+        return bookingProducts.get(0).getAccommodation().getHost();
     }
 }
