@@ -4,11 +4,13 @@ import com.example.jpaprac.entity.AccommodationEntity;
 import com.example.jpaprac.entity.BookingEntity;
 import com.example.jpaprac.entity.PaymentEntity;
 import com.example.jpaprac.entity.ProductEntity;
+import com.example.jpaprac.entity.ReviewEntity;
 import com.example.jpaprac.entity.UserEntity;
 import com.example.jpaprac.entity.user.property.Role;
 import com.example.jpaprac.repository.AccommodationRepository;
 import com.example.jpaprac.repository.BookingRepository;
 import com.example.jpaprac.repository.ProductRepository;
+import com.example.jpaprac.repository.ReviewRepository;
 import com.example.jpaprac.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,8 @@ class JpapracApplicationTests {
     ProductRepository productRepository;
     @Autowired
     BookingRepository bookingRepository;
+    @Autowired
+    ReviewRepository reviewRepository;
 
     @Test
     @Transactional
@@ -113,5 +117,33 @@ class JpapracApplicationTests {
         BookingEntity paid = bookingRepository.save(booking);
 
         System.out.println(paid.getPayment().getTotalPrice());
+    }
+
+    @Test
+    @Transactional
+    void WriterOfReviewAndReply(){
+        UserEntity user = userRepository.save(new UserEntity("name", Role.HOST, "id"));
+        AccommodationEntity accommodation = AccommodationEntity.builder()
+                .name("test")
+                .products(new ArrayList<>())
+                .build();
+        accommodation.confirmHost(user);
+
+        ProductEntity newProduct = ProductEntity.from(accommodation, LocalDate.parse("2024-07-07"), 1000);
+        Long productId = productRepository.save(newProduct).getId();
+
+        List<ProductEntity> products = new ArrayList<>();
+        products.add(productRepository.getReferenceById(productId));
+        BookingEntity booking = bookingRepository.save(BookingEntity.book(user, products));
+
+        ReviewEntity review = reviewRepository.save(new ReviewEntity(booking, "LGTM"));
+        review.addReply("LGTM TOO");
+
+        ReviewEntity saved = reviewRepository.save(review);
+
+        System.out.println(saved.getWriter().getName());
+        System.out.println(saved.getContent());
+        System.out.println(saved.getReply().getWriter().getName());
+        System.out.println(saved.getReply().getContent());
     }
 }
