@@ -1,3 +1,5 @@
+package org.example;
+
 import java.io.BufferedWriter;
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
@@ -26,18 +28,20 @@ public class Main {
             .filter(article -> !existingLinks.contains(article.link()))
             .toList();
 
+        System.out.println(newArticles.size() + "개의 뉴스를 새로 가져왔습니다!");
         writeResult(newArticles);
     }
 
     private static void writeResult(List<Article> articles) {
         StringJoiner content = new StringJoiner("\n");
         articles.forEach(article -> content.add(article.toString()));
+        if (!content.toString().isBlank()) content.add("");
 
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream(filePath), StandardCharsets.UTF_8))) {
+                new FileOutputStream(filePath, true), StandardCharsets.UTF_8))) {
             writer.write(content.toString());
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("파일 쓰기 실패");
         }
     }
 
@@ -46,11 +50,19 @@ public class Main {
 
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(filePath), StandardCharsets.UTF_8)) {
             existingLinks = reader.lines()
-                    .map(line -> line.substring(line.lastIndexOf("(") + 1, line.lastIndexOf(")")))
+                    .map(Main::getLineUrl)
                     .collect(Collectors.toSet());
         } catch (IOException e) {
             // 파일이 없으면 중복 없음
         }
         return existingLinks;
+    }
+
+    private static String getLineUrl(String line){
+        try {
+            return line.substring(line.lastIndexOf("(") + 1, line.lastIndexOf(")"));
+        }catch (StringIndexOutOfBoundsException e ){
+            return "";
+        }
     }
 }

@@ -1,3 +1,5 @@
+package org.example;
+
 import java.util.Map;
 
 public abstract class NaverNewsConsts {

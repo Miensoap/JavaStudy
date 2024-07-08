@@ -1,3 +1,5 @@
+package org.example;
+
 public record Article(
         String title,
         String link,
