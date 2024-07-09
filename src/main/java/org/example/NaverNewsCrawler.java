@@ -13,11 +13,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringJoiner;
 
+import static org.example.NaverNewsConsts.*;
+
 public class NaverNewsCrawler {
-    private final String baseUrl = NaverNewsConsts.BASE_URL;
+    private final String baseUrl = BASE_URL;
 
     public List<Article> getAllArticles() {
-        Set<String> topicNames = NaverNewsConsts.TOPICS.keySet();
+        Set<String> topicNames = TOPICS.keySet();
 
         return topicNames.stream()
                 .map(this::getArticlesOfTopic)
@@ -26,10 +28,10 @@ public class NaverNewsCrawler {
     }
 
     public List<Article> getArticlesOfTopic(String topicName) {
-        String topicPath = NaverNewsConsts.TOPICS.get(topicName);
+        String topicPath = TOPICS.get(topicName);
         List<Article> results = new ArrayList<>();
 
-        for (Map.Entry<String, String> detailTopic : NaverNewsConsts.DETAIL_TOPICS.get(topicName).entrySet()) {
+        for (Map.Entry<String, String> detailTopic : DETAIL_TOPICS.get(topicName).entrySet()) {
             String detailTopicName = detailTopic.getKey();
             String detailTopicPath = detailTopic.getValue();
 
@@ -38,7 +40,7 @@ public class NaverNewsCrawler {
 
             try {
                 Document document = getDocument(url);
-                Elements articles = document.select("div.section_article div.sa_text");
+                Elements articles = document.select(ARTICLE_CSS);
 
                 articles.forEach(article -> results.add(parseArticle(article, fullTopic)));
             } catch (IOException e) {
@@ -54,10 +56,10 @@ public class NaverNewsCrawler {
     }
 
     private Article parseArticle(Element article, String fullTopic) {
-        String title = article.select("a.sa_text_title strong.sa_text_strong").text();
-        String link = article.select("a.sa_text_title").attr("href");
-        String lede = article.select("div.sa_text_lede").text();
-        String press = article.select("div.sa_text_press").text();
+        String title = article.select(ARTICLE_TITLE_CSS).text();
+        String link = article.select(ARTICLE_LINK_CSS).attr("href");
+        String lede = article.select(ARTICLE_LEDE_CSS).text();
+        String press = article.select(ARTICLE_PRESS_CSS).text();
 
         return new Article(title, link, lede, press, fullTopic);
     }
